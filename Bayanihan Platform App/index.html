@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bayanihan Platform</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+        main {
+            padding: 2em;
+            max-width: 900px;
+            margin: auto;
+        }
+        .post-form, .post-list {
+            background: white;
+            padding: 1.5em;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 2em;
+        }
+        .form-group {
+            margin-bottom: 1em;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 0.5em;
+        }
+        button {
+            background-color: #d80202;
+            color: white;
+            border: none;
+            padding: 0.8em 1.5em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .post {
+            border-bottom: 1px solid #ddd;
+            padding: 1em 0;
+        }
+        .post:last-child {
+            border-bottom: none;
+        }
+        .category {
+            font-size: 0.9em;
+            color: #555;
+            background: #e9ecef;
+            padding: 0.3em 0.6em;
+            border-radius: 3px;
+            display: inline-block;
+            margin-top: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bayanihan Platform</h1>
+        <p>Helping Each Other During Calamities in the PHILIPPINES!</p>
+    </header>
+    <main>
+        <section class="post-form">
+            <h2>Post Your Service or Need</h2>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" />
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category">
+                    <option value="Volunteers Needed">Volunteers Needed</option>
+                    <option value="Temporary Shelter">Temporary Shelter</option>
+                    <option value="Evacuation Site">Evacuation Site</option>
+                    <option value="Emergency Kitchen">Emergency Kitchen</option>
+                    <option value="Free Load">Free Load</option>
+                    <option value="General Help">General Help</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" />
+            </div>
+            <button onclick="submitPost()">Submit</button>
+        </section>
+
+        <section class="post-list">
+            <h2>Community Posts</h2>
+            <div id="postsContainer"></div>
+        </section>
+    </main>
+
+    <script>
+        const posts = [];
+
+        function submitPost() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const category = document.getElementById('category').value;
+            const location = document.getElementById('location').value;
+
+            if (!title || !description || !location) {
+                alert("Please fill out all fields!");
+                return;
+            }
+
+            const newPost = { title, description, category, location, date: new Date().toLocaleString() };
+            posts.unshift(newPost);
+            renderPosts();
+            clearForm();
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = posts.map(post => `
+                <div class="post">
+                    <h3>${post.title}</h3>
+                    <p>${post.description}</p>
+                    <div class="category">${post.category}</div>
+                    <p><strong>Location:</strong> ${post.location}</p>
+                    <p><em>Posted on ${post.date}</em></p>
+                </div>
+            `).join('');
+        }
+
+        function clearForm() {
+            document.getElementById('title').value = "";
+            document.getElementById('description').value = "";
+            document.getElementById('category').value = "Volunteers Needed";
+            document.getElementById('location').value = "";
+        }
+    </script>
+</body>
+</html>
